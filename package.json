@@ -1,8 +1,8 @@
 {
   "name": "vue-cascade-tree",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "private": false,
-  "description": "基于vue和Element UI的树层选择器",
+  "description": "基于vue的树层选择器",
   "main": "dist/main.js",
   "scripts": {
     "start": "npm run dev",
@@ -43,7 +43,6 @@
     "webpack-hot-middleware": "^2.25.0"
   },
   "dependencies": {
-    "element-ui": "^2.12.0",
     "vue": "^2.6.10"
   }
 }

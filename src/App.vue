@@ -19,6 +19,11 @@ export default {
   components: {
     CascadeTree
   },
+  watch: {
+    val (v) {
+      console.log(v)
+    }
+  },
   data () {
     return {
       data: [
@@ -148,7 +153,8 @@ export default {
           ]
         }
       ],
-      subData: []
+      subData: [],
+      val: ''
     }
   }
 }

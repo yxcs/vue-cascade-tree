@@ -2,32 +2,32 @@
   <div ref="cascadeTree" class="cascade--tree__wrap" :style="{width: width}">
     <div v-for="item in checkList" :key="item.key" class="cascade--tree__item">
       <div :class="['cascade--tree__operate', item.key === activeKey ? 'active' : '']">
-        <el-checkbox
+        <ct-checkbox
           v-model="item.isCheck"
           :label="item.key"
           :indeterminate="item.isIndeterminate"
           @change="superBoxChange($event, item)">
           <span class="name" :style="{'max-width': nameMaxWidth}">{{item.name}}</span>
-        </el-checkbox>
+        </ct-checkbox>
         <span v-if="item.subCheckLen" class="num">({{item.subCheckLen}})</span>
         <template v-if="item.subLen">
           <span class="arrow" @click="showSecondSelection(item.key)">
-            <i v-if="item.key === activeKey" class="el-icon-caret-top"></i>
-            <i v-else class="el-icon-caret-bottom"></i>
+            <span v-if="item.key === activeKey" class="ct-arrow-wrap up"></span>
+            <span v-else class="ct-arrow-wrap down"></span>
           </span>
           <div v-if="item.key === activeKey" class="cascade--tree__popup" :style="{'max-height': popupMaxHeight}">
             <div class="popup-content">
               <div v-for="s in item.children" :key="s.key">
-                <el-checkbox
+                <ct-checkbox
                   v-model="s.isCheck"
                   :label="s.key"
                   @change="subBoxChange($event, item)">
                   {{s.name}}
-                </el-checkbox>
+                </ct-checkbox>
               </div>
             </div>
             <div class="popup-close">
-              <el-button size="mini" type="text" @click="showSecondSelection(activeKey)">关闭</el-button>
+              <button class="ct-button ct-button--text" @click="showSecondSelection(activeKey)">关闭</button>
             </div>
           </div>
         </template>
@@ -36,14 +36,12 @@
   </div>
 </template>
 <script>
-import 'element-ui/lib/theme-chalk/index.css'
-import { Checkbox, Button } from 'element-ui'
 import '../assets/main.css'
+import CTCheckbox from './Checkbox'
 export default {
   name: 'CascadeTree',
   components: {
-    'el-checkbox': Checkbox,
-    'el-button': Button
+    'ct-checkbox': CTCheckbox
   },
   props: {
     // v-model绑定的值，必传
