@@ -1,0 +1,63 @@
+.cascade--tree__wrap .el-checkbox__label {
+  font-size: 12px;
+  padding-left: 5px;
+}
+.cascade--tree__wrap {
+  background: transparent;
+}
+.cascade--tree__item {
+  position: relative;
+  width: 100%;
+  height: 30px;
+}
+.cascade--tree__operate {
+  display: inline-block;
+  padding: 5px 10px;
+}
+.cascade--tree__operate.active {
+  box-shadow: 0 -1px 6px 0 rgba(0,0,0,.1);
+}
+.cascade--tree__operate .name {
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.cascade--tree__operate .num {
+  font-size: 12px;
+  padding-right: 3px;
+  color: #f00;
+}
+.cascade--tree__operate .arrow {
+  padding-right: 3px;
+  display: inline-block;
+  width: 20px;
+  height: 100%;
+  cursor: pointer;
+  text-align: center;
+}
+.cascade--tree__popup {
+  position: absolute;
+  z-index: 99;
+  left: 0px;
+  right: 0px;
+  top: 30px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,.1);
+  overflow: auto;
+}
+.popup-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.popup-content > div {
+  padding-bottom: 4px;
+}
+.popup-close {
+  text-align: right;
+}
