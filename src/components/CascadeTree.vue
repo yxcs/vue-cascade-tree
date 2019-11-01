@@ -1,5 +1,5 @@
 <template>
-  <div ref="cascadeTree" class="cascade--tree__wrap" :style="{width: itemWidth* column + 'px'}">
+  <div ref="cascadeTree" class="cascade--tree__wrap" :style="{width: componentWidth}">
     <div v-for="item in checkList" :key="item.key" class="cascade--tree__item"  :style="{width: itemWidth + 'px'}">
       <div :class="['cascade--tree__operate', item.key === activeKey ? 'active' : '']">
         <ct-checkbox
@@ -14,7 +14,7 @@
           <span class="arrow" @click="showSecondSelection(item.key)">
             <span :class="['ct-arrow-wrap', item.key === activeKey ? 'up' : 'down']"></span>
           </span>
-          <div v-if="item.key === activeKey" class="cascade--tree__popup" :style="{width: itemWidth + 20 + 'px', 'max-height': popupMaxHeight}">
+          <div v-if="item.key === activeKey" class="cascade--tree__popup" :style="{width: popupWidth, 'max-height': popupMaxHeight}">
             <div class="popup-content">
               <div v-for="s in item.children" :key="s.key">
                 <ct-checkbox
@@ -127,7 +127,10 @@ export default {
       return this.itemWidth > 85 ? this.itemWidth - 85 + 'px' : '80px'
     },
     componentWidth () {
-      return 
+      return this.itemWidth * this.column + 'px'
+    },
+    popupWidth () {
+      return this.itemWidth + 20 + 'px'
     }
   },
   mounted () {

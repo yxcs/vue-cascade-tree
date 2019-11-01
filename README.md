@@ -201,10 +201,15 @@ props: {
     type: Array,
     required: true
   },
-  // 整个组件的 宽度
-  width: {
-    type: String,
-    default: '220px'
+  // 整个组件分为几列
+  column: {
+    type: Number,
+    default: 3
+  },
+  // 每一列的宽度
+  itemWidth: {
+    type: Number,
+    default: 160
   },
   // 组件的弹层的最大高度，超出滚动，宽度取 [this.width]值
   popupMaxHeight: {
