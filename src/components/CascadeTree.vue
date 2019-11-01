@@ -1,27 +1,27 @@
 <template>
   <div ref="cascadeTree" class="cascade--tree__wrap" :style="{width: componentWidth}">
-    <div v-for="item in checkList" :key="item.key" class="cascade--tree__item"  :style="{width: itemWidth + 'px'}">
-      <div :class="['cascade--tree__operate', item.key === activeKey ? 'active' : '']">
+    <div v-for="item in checkList" :key="item._key" class="cascade--tree__item"  :style="{width: itemWidth + 'px'}">
+      <div :class="['cascade--tree__operate', item._key === activeKey ? 'active' : '']">
         <ct-checkbox
-          v-model="item.isCheck"
-          :label="item.key"
-          :indeterminate="item.isIndeterminate"
+          v-model="item._isCheck"
+          :label="item._key"
+          :indeterminate="item._isIndeterminate"
           @change="superBoxChange($event, item)">
-          <span class="name" :style="{'max-width': nameMaxWidth}">{{item.name}}</span>
+          <span class="name" :style="{'max-width': nameMaxWidth}">{{item._name}}</span>
         </ct-checkbox>
-        <span v-if="item.subCheckLen" class="num">({{item.subCheckLen}})</span>
-        <template v-if="item.subLen">
-          <span class="arrow" @click="showSecondSelection(item.key)">
-            <span :class="['ct-arrow-wrap', item.key === activeKey ? 'up' : 'down']"></span>
+        <span v-if="item._subCheckLen" class="num">({{item._subCheckLen}})</span>
+        <template v-if="item._subLen">
+          <span class="arrow" @click="showSecondSelection(item._key)">
+            <span :class="['ct-arrow-wrap', item._key === activeKey ? 'up' : 'down']"></span>
           </span>
-          <div v-if="item.key === activeKey" class="cascade--tree__popup" :style="{width: popupWidth, 'max-height': popupMaxHeight}">
+          <div v-if="item._key === activeKey" class="cascade--tree__popup" :style="{width: popupWidth, 'max-height': popupMaxHeight}">
             <div class="popup-content">
-              <div v-for="s in item.children" :key="s.key">
+              <div v-for="s in item._children" :key="s._key">
                 <ct-checkbox
-                  v-model="s.isCheck"
-                  :label="s.key"
+                  v-model="s._isCheck"
+                  :label="s._key"
                   @change="subBoxChange($event, item)">
-                  {{s.name}}
+                  {{s._name}}
                 </ct-checkbox>
               </div>
             </div>
@@ -142,21 +142,21 @@ export default {
       let checkList = data.map(item => {
         let children = item[this.childrenKey] instanceof Array ? item[this.childrenKey] : []
         children = children.map(sItem => ({
-          key: sItem[this.primaryKey],
-          isCheck: false, // 子项选择状态
-          name: sItem[this.nameKey]
+          _key: sItem[this.primaryKey],
+          _isCheck: false, // 子项选择状态
+          _name: sItem[this.nameKey]
         }))
         return {
-          key: item[this.primaryKey],
-          children,
-          name: item[this.nameKey],
-          isIndeterminate: false, // checkbox选择了但是未全选状态控制
-          isCheck: false, // 主项选择状态
-          subLen: children.length, // 子项的个数
-          subCheckLen: 0 // 子项已选择的个数，配合subLen计算选择状态
+          _key: item[this.primaryKey],
+          _children: children,
+          _name: item[this.nameKey],
+          _isIndeterminate: false, // checkbox选择了但是未全选状态控制
+          _isCheck: false, // 主项选择状态
+          _subLen: children.length, // 子项的个数
+          _subCheckLen: 0 // 子项已选择的个数，配合subLen计算选择状态
         }
       })
-      this.showNull || (checkList = checkList.filter(item => item.subLen))
+      this.showNull || (checkList = checkList.filter(item => item._subLen))
       this.checkList = checkList
     },
     // 展开关闭子弹层
@@ -166,23 +166,23 @@ export default {
     // 主项全选和全不选事件触发
     superBoxChange (e, current) {
       // 根据主项状态，赋值子项全选、全不选
-      current.children = current.children.map(item => {
-        item.isCheck = e
+      current._children = current._children.map(item => {
+        item._isCheck = e
         return item
       })
       // 全选或全不选的时候 Indeterminate 状态都为 false
-      current.isIndeterminate = false
+      current._isIndeterminate = false
       // 全选或全不选的时候 子项选择的数量
-      current.subCheckLen = e ? current.subLen : 0
+      current._subCheckLen = e ? current._subLen : 0
       // 将当前状态返回给父组件
       this.setValueToParent()
     },
     // 子项选择和取消选择事件触发
     subBoxChange (e, current) {
       // 选择时 子项选择的数量 +1，取消选择时  子项选择的数量 -1
-      current.subCheckLen = e ? current.subCheckLen + 1 : current.subCheckLen - 1
-      current.isIndeterminate = !!(current.subCheckLen && current.subCheckLen !== current.subLen)
-      current.isCheck = current.subCheckLen === current.subLen
+      current._subCheckLen = e ? current._subCheckLen + 1 : current._subCheckLen - 1
+      current._isIndeterminate = !!(current._subCheckLen && current._subCheckLen !== current._subLen)
+      current._isCheck = current._subCheckLen === current._subLen
       this.setValueToParent()
     },
     // 将值传递到父组件
@@ -191,11 +191,11 @@ export default {
       const showNull = this.showNull
       // 获取全部的选择的子项的key, 如果主项的子项为空同时主项全选了，那么返回主项的key
       this.checkList.forEach(item => {
-        if (showNull && !item.subLen && item.isCheck) {
-          subCheckList.push(item.key)
+        if (showNull && !item._subLen && item._isCheck) {
+          subCheckList.push(item._key)
         }
-        item.children.forEach(sItem => {
-          sItem.isCheck && subCheckList.push(sItem.key)
+        item._children.forEach(sItem => {
+          sItem._isCheck && subCheckList.push(sItem._key)
         })
       })
       // typpe = checkbox，触发表单的input事件，将值赋值给v-model中的字段
