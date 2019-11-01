@@ -1,6 +1,6 @@
 <template>
-  <div ref="cascadeTree" class="cascade--tree__wrap" :style="{width: width}">
-    <div v-for="item in checkList" :key="item.key" class="cascade--tree__item">
+  <div ref="cascadeTree" class="cascade--tree__wrap" :style="{width: itemWidth* column + 'px'}">
+    <div v-for="item in checkList" :key="item.key" class="cascade--tree__item"  :style="{width: itemWidth + 'px'}">
       <div :class="['cascade--tree__operate', item.key === activeKey ? 'active' : '']">
         <ct-checkbox
           v-model="item.isCheck"
@@ -12,10 +12,9 @@
         <span v-if="item.subCheckLen" class="num">({{item.subCheckLen}})</span>
         <template v-if="item.subLen">
           <span class="arrow" @click="showSecondSelection(item.key)">
-            <span v-if="item.key === activeKey" class="ct-arrow-wrap up"></span>
-            <span v-else class="ct-arrow-wrap down"></span>
+            <span :class="['ct-arrow-wrap', item.key === activeKey ? 'up' : 'down']"></span>
           </span>
-          <div v-if="item.key === activeKey" class="cascade--tree__popup" :style="{'max-height': popupMaxHeight}">
+          <div v-if="item.key === activeKey" class="cascade--tree__popup" :style="{width: itemWidth + 20 + 'px', 'max-height': popupMaxHeight}">
             <div class="popup-content">
               <div v-for="s in item.children" :key="s.key">
                 <ct-checkbox
@@ -54,15 +53,42 @@ export default {
       type: Array,
       required: true
     },
+    // 列数，最多包含几列
+    column: {
+      type: Number,
+      default: 3,
+      validator (v) {
+        if (parseInt(v) !== v) {
+          throw new Error('[column] 必须为正整数')
+          return false
+        }
+        if (v < 1) {
+          throw new Error('[column] 必须为正整数')
+          return false
+        }
+        return true
+      }
+    },
+    itemWidth: {
+      type: Number,
+      default: 160,
+      validator (v) {
+        if (v <= 0) {
+          throw new Error('[column] 必须为正数')
+          return false
+        }
+        return true
+      }
+    },
     // 整个组件的 宽度
     width: {
-      type: String,
-      default: '220px'
+      type: Number,
+      default: 500
     },
     // 组件的弹层的最大高度，超出滚动，宽度取 [this.width]值
     popupMaxHeight: {
-      type: String,
-      default: '200px'
+      type: Number,
+      default: 200
     },
     // 每一个主项和子项的唯一key的字段名称，用以兼容传进来的data
     primaryKey: {
@@ -98,7 +124,10 @@ export default {
   },
   computed: {
     nameMaxWidth () {
-      return parseInt(this.width) - 80 + 'px'
+      return this.itemWidth > 85 ? this.itemWidth - 85 + 'px' : '80px'
+    },
+    componentWidth () {
+      return 
     }
   },
   mounted () {
@@ -108,18 +137,19 @@ export default {
     // 更改data结构和兼容data的字段名称
     changeDataFormat (data) {
       let checkList = data.map(item => {
-        item.children = item.children.map(sItem => ({
+        let children = item[this.childrenKey] instanceof Array ? item[this.childrenKey] : []
+        children = children.map(sItem => ({
           key: sItem[this.primaryKey],
           isCheck: false, // 子项选择状态
           name: sItem[this.nameKey]
         }))
         return {
           key: item[this.primaryKey],
-          children: item[this.childrenKey],
+          children,
           name: item[this.nameKey],
           isIndeterminate: false, // checkbox选择了但是未全选状态控制
           isCheck: false, // 主项选择状态
-          subLen: item[this.childrenKey].length, // 子项的个数
+          subLen: children.length, // 子项的个数
           subCheckLen: 0 // 子项已选择的个数，配合subLen计算选择状态
         }
       })

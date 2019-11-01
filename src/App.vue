@@ -3,11 +3,11 @@
     <CascadeTree
       v-model="subData"
       :data="data"
-      width="220px"
-      popup-max-height="200px"
+      :popup-max-height="200"
       primary-key="id"
       children-key="children"
-      name-key="title">
+      name-key="title"
+      :column="3">
     </CascadeTree>
   </div>
 </template>
@@ -129,7 +129,7 @@ export default {
           ]
         }, {
           id: '150000',
-          title: '内蒙古自治区',
+          title: '满洲里市',
           children: [
             {
               id: '150100',
