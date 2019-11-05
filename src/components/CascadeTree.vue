@@ -14,7 +14,7 @@
           <span class="arrow" @click="showSecondSelection(item._key)">
             <span :class="['ct-arrow-wrap', item._key === activeKey ? 'up' : 'down']"></span>
           </span>
-          <div v-if="item._key === activeKey" class="cascade--tree__popup" :style="{width: popupWidth, 'max-height': popupMaxHeight}">
+          <div v-if="item._key === activeKey" ref="cascadeTreePopup" class="cascade--tree__popup" :style="{width: popupWidth, 'max-height': popupMaxHeight}">
             <div class="popup-content">
               <div v-for="s in item._children" :key="s._key">
                 <ct-checkbox
@@ -137,6 +137,7 @@ export default {
     }
   },
   mounted () {
+    document.addEventListener('click', this.bodyClick, true)
     this.changeDataFormat(this.data)
   },
   methods: {
@@ -203,6 +204,14 @@ export default {
       })
       // typpe = checkbox，触发表单的input事件，将值赋值给v-model中的字段
       this.$emit('input', subCheckList)
+    },
+    bodyClick (e) {
+      this.$nextTick(() => {
+        const popup = this.$refs['cascadeTreePopup'] || []
+        if (popup && popup.length && e.path.indexOf(popup[0]) === -1) {
+          this.activeKey = ''
+        }
+      })
     }
   }
 }
