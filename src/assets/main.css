@@ -36,8 +36,10 @@
   margin: -3px
 }
 .cascade--tree__operate .num {
+  display: inline-block;
+  vertical-align: top;
   font-size: 12px;
-  font-size: 10px; /*可以设置为10时，设置为10，否则为12*/
+  transform: scale(0.9);
   color: #f00;
 }
 .cascade--tree__popup {
