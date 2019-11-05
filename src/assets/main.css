@@ -5,7 +5,8 @@
 }
 .cascade--tree__wrap .popup-content .ct-checkbox__label {
   font-size: 12px;
-  padding-left: 0px;
+  padding-left: 3px;
+  vertical-align: top;
 }
 .cascade--tree__wrap {
   display: flex;
@@ -67,7 +68,8 @@
   width: 100%;
 }
 .popup-content>div {
-  padding-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .popup-close {
   text-align: right;
@@ -87,7 +89,9 @@
   font-weight: 500;
   font-size: 14px;
   cursor: pointer;
-  white-space: nowrap;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre-wrap;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -96,7 +100,7 @@
 }
 .ct-checkbox__input {
   cursor: pointer;
-  line-height: 1
+  line-height: 1;
 }
 .ct-checkbox__input.is-checked .ct-checkbox__inner, .ct-checkbox__input.is-indeterminate .ct-checkbox__inner {
   background-color: #409EFF;

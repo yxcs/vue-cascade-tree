@@ -121,7 +121,7 @@ export default {
               title: '宽城满族自治县'
             }, {
               id: '130828',
-              title: '围场满族蒙古族自治县'
+              title: '围场满族蒙古族自治县围场满族蒙古族自治县'
             }, {
               id: '130930',
               title: '孟村回族自治县'
@@ -161,4 +161,7 @@ export default {
 </script>
 
 <style>
+#app {
+  margin-left: 40px;
+}
 </style>

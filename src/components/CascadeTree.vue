@@ -21,7 +21,7 @@
                   v-model="s._isCheck"
                   :label="s._key"
                   @change="subBoxChange($event, item)">
-                  {{s._name}}
+                  <span class="name" :style="{'max-width': subBoxWidth}">{{s._name}}</span>
                 </ct-checkbox>
               </div>
             </div>
@@ -130,6 +130,9 @@ export default {
       return this.itemWidth * this.column + 'px'
     },
     popupWidth () {
+      return this.itemWidth + 60 + 'px'
+    },
+    subBoxWidth () {
       return this.itemWidth + 20 + 'px'
     }
   },
