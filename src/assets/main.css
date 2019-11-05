@@ -29,7 +29,7 @@
 }
 .cascade--tree__operate .name {
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -39,14 +39,6 @@
   font-size: 12px;
   font-size: 10px; /*可以设置为10时，设置为10，否则为12*/
   color: #f00;
-}
-.cascade--tree__operate .arrow {
-  display: inline-block;
-  width: 20px;
-  height: 100%;
-  cursor: pointer;
-  text-align: center;
-  margin: -3px
 }
 .cascade--tree__popup {
   position: absolute;
@@ -71,6 +63,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.cascade--tree__operate .sub-name {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 1.1;
+  margin: 0 -3px 5px;
+}
 .popup-close {
   text-align: right;
 }
@@ -81,7 +79,7 @@
 }
 .ct-checkbox-button__inner, .ct-checkbox__input {
   white-space: nowrap;
-  vertical-align: middle;
+  vertical-align: top;
   outline: 0
 }
 .ct-checkbox {
@@ -223,6 +221,15 @@
 }
 
 /* 三角箭头 */ 
+.cascade--tree__operate .arrow {
+  display: inline-block;
+  vertical-align: top;
+  width: 20px;
+  height: 100%;
+  cursor: pointer;
+  text-align: center;
+  margin: -5px -3px 0;
+}
 .ct-arrow-wrap {
   display: inline-block;
   background: transparent;
